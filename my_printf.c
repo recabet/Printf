@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "my_printf.h"
 
+
+
 char* my_chardup(const char c)
 {
 	static char buffer[2];
@@ -29,7 +31,7 @@ size_t my_strlen(const char* str)
 
 int my_puts(const char* str)
 {
-	size_t len = my_strlen(str);
+	const size_t len = my_strlen(str);
 	if(len < 1)
 	{
 		return -1;
@@ -54,7 +56,7 @@ void my_putint(int num)
 
 	do
 	{
-		buffer[i--] = '0' + (num % 10);
+		buffer[i--] ='0' + (num % 10);
 		num /= 10;
 	} while(num > 0);
 
@@ -66,10 +68,10 @@ void my_putint(int num)
 	my_puts(&buffer[i + 1]);
 }
 
-void my_putdouble(double num)
+void my_putdouble(const double num)
 {
 	char buffer[50];
-	int len = snprintf(buffer, sizeof(buffer), "%lf", num);
+	const int len = snprintf(buffer, sizeof(buffer), "%lf", num);
 	if(len > 0)
 	{
 		write(1, buffer, len);
@@ -90,25 +92,25 @@ int my_printf(const char* fmt, ...)
 			{
 				case 's':
 				{
-					char* str = va_arg(args, char*);
+					const char* str = va_arg(args, char*);
 					my_puts(str);
 					break;
 				}
 				case 'd':
 				{
-					int num = va_arg(args, int);
-					my_putint(num);
+					const int num_int = va_arg(args, int);
+					my_putint(num_int);
 					break;
 				}
 				case 'f':
 				{
-					double num = va_arg(args, double);
-					my_putdouble(num);
+					const double num_float = va_arg(args, double);
+					my_putdouble(num_float);
 					break;
 				}
 				case 'c':
 				{
-					char c = (char) va_arg(args, int);
+					const char c =va_arg(args, int);
 					my_putchar(c);
 					break;
 				}
